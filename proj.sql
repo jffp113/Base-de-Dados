@@ -114,6 +114,7 @@ CREATE TABLE message(
 	m_time TIMESTAMP NOT NULL,
 	id_c NUMBER(12,0) NOT NULL,
 	user_name VARCHAR2(15) NOT NULL,
+	text VARCHAR(250),
 	FOREIGN KEY (id_c) REFERENCES chat(id_c),
 	FOREIGN KEY (user_name) REFERENCES premium(user_name)
 );
