@@ -230,7 +230,7 @@ BEGIN
     SELECT count(*) into co
     FROM login
     WHERE user_name=:new.user_name;
-    
+   
     if co = 0
     then Raise_Application_Error (-20100, 'User never logged in.');
     end if;
@@ -240,16 +240,21 @@ END;
 
 CREATE OR REPLACE TRIGGER canFollow BEFORE INSERT ON follow
 FOR EACH ROW
-DECLARE co NUMBER;
+DECLARE co NUMBER;last_login TIMESTAMP;
+
 BEGIN 
     
     SELECT count(*) into co
     FROM login
     WHERE user_name=:new.user_name;
     
-    if co = 0
-    then Raise_Application_Error (-20100, 'User never logged in.');
-    end if;
+	select max(l_time) into last_login
+	from login
+	where user_name=:new.user_name;
+	
+    if co = 0 or  ((TRUNC(:new.f_date) - TRUNC(last_login))  >= 1 or (TRUNC(:new.f_date) - TRUNC(last_login)) <0)
+    then Raise_Application_Error (-20100, 'User never logged in or login expired');
+     end if;
 
 END;
 /
