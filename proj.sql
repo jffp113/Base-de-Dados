@@ -374,6 +374,16 @@ BEGIN
 END;
 /
 
+create or replace FUNCTION calc_subs(streamer VARCHAR2) 
+        RETURN NUMBER IS totalsubs NUMBER; 
+    BEGIN 
+        SELECT count(user_name) INTO totalsubs
+        FROM follow f
+        WHERE f.streamer_name = streamer;
+        RETURN totalsubs; 
+END calc_subs;
+
+
 PURGE RECYCLEBIN;
 
 --CATEGORIES
@@ -499,7 +509,7 @@ INSERT INTO USERS VALUES ('Pessoa11','Pessoa11@hotmail.com',TO_DATE('31-01-2000'
 --LOGIN--
 INSERT INTO login VALUES(SYSDATE,'192.168.1.92','Lisboa','Pessoa1');
 INSERT INTO login VALUES(SYSDATE,'192.165.1.87','Almada','Pessoa2');
-INSERT INTO login VALUES(SYSDATE,'192.168.1.09','Setúbal','Pessoa3');
+INSERT INTO login VALUES(SYSDATE,'192.168.1.09','SetÃºbal','Pessoa3');
 INSERT INTO login VALUES(SYSDATE,'192.153.1.92','Faro','Pessoa4');
 INSERT INTO login VALUES(SYSDATE,'192.176.1.92','Caparica','Pessoa5');
 INSERT INTO login VALUES(SYSDATE,'192.168.3.92','Porto','Pessoa6');
