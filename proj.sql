@@ -277,33 +277,40 @@ END;
 
 CREATE OR REPLACE TRIGGER canPay BEFORE INSERT ON payment
 FOR EACH ROW
-DECLARE co NUMBER;
+DECLARE co NUMBER;last_login TIMESTAMP;
 BEGIN 
     
     SELECT count(*) into co
     FROM login
     WHERE user_name=:new.user_name;
     
-    if co = 0
-    then Raise_Application_Error (-20100, 'User never logged in.');
-    end if;
+	select max(l_time) into last_login
+	from login
+	where user_name=:new.user_name;
+	
+    if co = 0 or  ((TRUNC(:new.payment_date) - TRUNC(last_login))  >= 1 or (TRUNC(:new.payment_date) - TRUNC(last_login)) <0)
+    then Raise_Application_Error (-20100, 'User never logged in or login expired');
+     end if;
 
 END;
 /
 
 CREATE OR REPLACE TRIGGER canSend BEFORE INSERT ON message
 FOR EACH ROW
-DECLARE co NUMBER;
+DECLARE co NUMBER;last_login TIMESTAMP;
 BEGIN 
     
     SELECT count(*) into co
     FROM login
     WHERE user_name=:new.user_name;
     
-    if co = 0
-    then Raise_Application_Error (-20100, 'User never logged in.');
-    end if;
-
+	select max(l_time) into last_login
+	from login
+	where user_name=:new.user_name;
+	
+    if co = 0 or  ((TRUNC(:new.m_time) - TRUNC(last_login))  >= 1 or (TRUNC(:new.m_time) - TRUNC(last_login)) <0)
+    then Raise_Application_Error (-20100, 'User never logged in or login expired');
+     end if;
 END;
 /
 
