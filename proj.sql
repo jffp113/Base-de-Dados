@@ -212,13 +212,25 @@ FOR EACH ROW
 BEGIN
     UPDATE streamer
     SET
-        user_name=:new.user_name,
-        channel_name=:new.channel_name,
-        begin_date=:new.begin_date
+        channel_name=:new.channel_name
     where user_name=:new.user_name;
 END;
 /
 
+--TRIGGERS TO MANAGE view_premium--
+CREATE OR REPLACE TRIGGER insert_premium INSTEAD OF INSERT ON view_premium
+FOR EACH ROW
+BEGIN 
+    INSERT INTO premium values(:new.user_name);
+END;
+/
+
+CREATE OR REPLACE TRIGGER delete_premium INSTEAD OF DELETE ON view_premium
+FOR EACH ROW
+BEGIN
+    DELETE FROM premium where user_name=:old.user_name;
+END;
+/
 
 --TRIGGERS--
 CREATE OR REPLACE TRIGGER canWatch BEFORE INSERT ON watch
