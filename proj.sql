@@ -192,6 +192,34 @@ BEGIN
 END;
 /
 
+--TRIGGERS TO MANAGE view_streamers--
+CREATE OR REPLACE TRIGGER insert_streamer INSTEAD OF INSERT ON view_streamers
+FOR EACH ROW
+BEGIN 
+    INSERT INTO streamer values(:new.user_name,:new.channel_name,:new.begin_date);
+END;
+/
+
+CREATE OR REPLACE TRIGGER delete_streamer INSTEAD OF DELETE ON view_streamers
+FOR EACH ROW
+BEGIN
+    DELETE FROM streamer where user_name=:old.user_name;
+END;
+/
+
+CREATE OR REPLACE TRIGGER update_streamer INSTEAD OF UPDATE on view_streamers
+FOR EACH ROW
+BEGIN
+    UPDATE streamer
+    SET
+        user_name=:new.user_name,
+        channel_name=:new.channel_name,
+        begin_date=:new.begin_date
+    where user_name=:new.user_name;
+END;
+/
+
+
 --TRIGGERS--
 CREATE OR REPLACE TRIGGER canWatch BEFORE INSERT ON watch
 FOR EACH ROW
