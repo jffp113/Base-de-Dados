@@ -236,17 +236,21 @@ END;
 --TRIGGERS--
 CREATE OR REPLACE TRIGGER canWatch BEFORE INSERT ON watch
 FOR EACH ROW
-DECLARE co NUMBER;
+DECLARE co NUMBER;last_login TIMESTAMP;
+
 BEGIN 
     
     SELECT count(*) into co
     FROM login
     WHERE user_name=:new.user_name;
-   
-    if co = 0
-    then Raise_Application_Error (-20100, 'User never logged in.');
-    end if;
-
+    
+	select max(l_time) into last_login
+	from login
+	where user_name=:new.user_name;
+	
+    if co = 0 or  ((TRUNC(:new.s_time) - TRUNC(last_login))  >= 1 or (TRUNC(:new.s_time) - TRUNC(last_login)) <0)
+    then Raise_Application_Error (-20100, 'User never logged in or login expired');
+     end if;
 END;
 /
 
@@ -519,9 +523,10 @@ INSERT INTO follow VALUES ('Pessoa5','Pessoa7',SYSDATE);
 
 --STREAM--
 INSERT INTO stream VALUES ('Pessoa10',TO_DATE('2012-03-28 11:10:00','yyyy/mm/dd hh24:mi:ss'),'Tetris','muito mas bastante muito ainda muito azeite','www.twitch/jorge.tv');
+INSERT INTO stream VALUES ('Pessoa10',SYSDATE,'Tetris','muito mas bastante muito ainda muito azeite','www.twitch/jorge.tv');
 
 --WATCH--
-INSERT INTO watch VALUES ('Pessoa3','Pessoa10',TO_DATE('2012-03-28 11:10:00','yyyy/mm/dd hh24:mi:ss'));
+INSERT INTO watch VALUES ('Pessoa3','Pessoa10',TO_DATE('2018-05-19 17:00:16','yyyy/mm/dd hh24:mi:ss'));
 
 --PAYMENT_METHOD--
 INSERT INTO PAYMENT_METHOD VALUES('PayPal');
@@ -537,8 +542,6 @@ INSERT INTO PAYMENT VALUES(SEQ_PAYMENT.NEXTVAL,SYSDATE,10,'Pessoa10','BitCoin');
 INSERT INTO PAYMENT VALUES(SEQ_PAYMENT.NEXTVAL,SYSDATE,65,'Pessoa10','Credit Card');
 INSERT INTO PAYMENT VALUES(SEQ_PAYMENT.NEXTVAL,SYSDATE,39,'Pessoa10','MB Way');
 INSERT INTO PAYMENT VALUES(SEQ_PAYMENT.NEXTVAL,SYSDATE,534,'Pessoa10','Apple Pay');
-
-
 
 
 
