@@ -135,8 +135,8 @@ CREATE TABLE has(
 	streamer_name VARCHAR2(15),
 	s_time TIMESTAMP,
 	PRIMARY KEY (id_p,streamer_name,s_time),
+	FOREIGN KEY (s_time,streamer_name) REFERENCES stream(date,streamer_name),
 	FOREIGN KEY (id_p) REFERENCES playlist(id_p),
-	FOREIGN KEY (streamer_name) REFERENCES streamer(user_name)
 );
 CREATE TABLE type(
     g_name VARCHAR2(30),
@@ -186,12 +186,7 @@ CREATE SEQUENCE seq_message
 START WITH 1
 INCREMENT BY 1;
 
-CREATE OR REPLACE TRIGGER insert_streamer INSTEAD OF INSERT ON view_streamers
-FOR EACH ROW
-BEGIN 
-    INSERT INTO streamer values(:new.user_name,:new.channel_name,:new.begin_date);
-END;
-/
+
 
 --TRIGGERS TO MANAGE view_streamers--
 CREATE OR REPLACE TRIGGER insert_streamer INSTEAD OF INSERT ON view_streamers
@@ -382,7 +377,7 @@ create or replace FUNCTION calc_subs(streamer VARCHAR2)
         WHERE f.streamer_name = streamer;
         RETURN totalsubs; 
 END calc_subs;
-
+/
 
 PURGE RECYCLEBIN;
 
@@ -559,6 +554,44 @@ INSERT INTO PAYMENT VALUES(SEQ_PAYMENT.NEXTVAL,SYSDATE,10,'Pessoa10','BitCoin');
 INSERT INTO PAYMENT VALUES(SEQ_PAYMENT.NEXTVAL,SYSDATE,65,'Pessoa10','Credit Card');
 INSERT INTO PAYMENT VALUES(SEQ_PAYMENT.NEXTVAL,SYSDATE,39,'Pessoa10','MB Way');
 INSERT INTO PAYMENT VALUES(SEQ_PAYMENT.NEXTVAL,SYSDATE,534,'Pessoa10','Apple Pay');
+
+--Playlist--
+
+Insert into Playlist values(seq_playlist.nextval,'Playlist1','Pessoa10');
+Insert int Playlist values(seq_playlist.nextval,'Playlist2','Pessoa110');
+Insert int Playlist values(seq_playlist.nextval,'Playlist3','Pessoa10');
+Insert int Playlist values(seq_playlist.nextval,'Ola1','Pessoa7');
+Insert int Playlist values(seq_playlist.nextval,'Ola2','Pessoa7');
+Insert int Playlist values(seq_playlist.nextval,'Fortnite clips','Pessoa7');
+Insert int Playlist values(seq_playlist.nextval,'Pubg best moments','Pessoa2');
+
+
+--Message--
+
+Insert int message values(seq_message.nextval,sysdate,1,'Pessoa10','Nao gosto da tua stream');
+Insert int message values(seq_message.nextval,sysdate,2,'Pessoa10','azeite muito azeite azeite++');
+Insert int message values(seq_message.nextval,sysdate,1,'Pessoa2','PogChamp!!');
+Insert int message values(seq_message.nextval,sysdate,1,'Pessoa7','CY@');
+Insert int message values(seq_message.nextval,sysdate,2,'Pessoa10','azeite pouco azeite azeite--');
+
+--has--
+
+
+
+
+/*CREATE OR REPLACE TRIGGER addPlaylistToHas  AFTER INSERT ON Playlist
+FOR EACH ROW
+Declare time  TIMESTAMP;
+BEGIN 
+
+	select s_time into time
+	from stream
+	where streamer_name = :new.streamer_name
+	
+    Insert into has values(:new.id_p, :new.stream_name,);
+END;
+/*/
+
 
 
 
