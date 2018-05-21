@@ -135,8 +135,8 @@ CREATE TABLE has(
 	streamer_name VARCHAR2(15),
 	s_time TIMESTAMP,
 	PRIMARY KEY (id_p,streamer_name,s_time),
-	FOREIGN KEY (s_time,streamer_name) REFERENCES stream(date,streamer_name),
-	FOREIGN KEY (id_p) REFERENCES playlist(id_p),
+	FOREIGN KEY (s_time,streamer_name) REFERENCES stream(s_time,streamer_name),
+	FOREIGN KEY (id_p) REFERENCES playlist(id_p)
 );
 CREATE TABLE type(
     g_name VARCHAR2(30),
@@ -378,10 +378,6 @@ create or replace FUNCTION calc_subs(streamer VARCHAR2)
         RETURN totalsubs; 
 END calc_subs;
 /
-<<<<<<< HEAD
-=======
-
->>>>>>> e4ead4b14dec1fa89f9da0feb269ea81da89e7d6
 
 PURGE RECYCLEBIN;
 
@@ -562,21 +558,21 @@ INSERT INTO PAYMENT VALUES(SEQ_PAYMENT.NEXTVAL,SYSDATE,534,'Pessoa10','Apple Pay
 --Playlist--
 
 Insert into Playlist values(seq_playlist.nextval,'Playlist1','Pessoa10');
-Insert int Playlist values(seq_playlist.nextval,'Playlist2','Pessoa110');
-Insert int Playlist values(seq_playlist.nextval,'Playlist3','Pessoa10');
-Insert int Playlist values(seq_playlist.nextval,'Ola1','Pessoa7');
-Insert int Playlist values(seq_playlist.nextval,'Ola2','Pessoa7');
-Insert int Playlist values(seq_playlist.nextval,'Fortnite clips','Pessoa7');
-Insert int Playlist values(seq_playlist.nextval,'Pubg best moments','Pessoa2');
+Insert into Playlist values(seq_playlist.nextval,'Playlist2','Pessoa110');
+Insert into Playlist values(seq_playlist.nextval,'Playlist3','Pessoa10');
+Insert into Playlist values(seq_playlist.nextval,'Ola1','Pessoa7');
+Insert into Playlist values(seq_playlist.nextval,'Ola2','Pessoa7');
+Insert into Playlist values(seq_playlist.nextval,'Fortnite clips','Pessoa7');
+Insert into Playlist values(seq_playlist.nextval,'Pubg best moments','Pessoa2');
 
 
 --Message--
 
-Insert int message values(seq_message.nextval,sysdate,1,'Pessoa10','Nao gosto da tua stream');
-Insert int message values(seq_message.nextval,sysdate,2,'Pessoa10','azeite muito azeite azeite++');
-Insert int message values(seq_message.nextval,sysdate,1,'Pessoa2','PogChamp!!');
-Insert int message values(seq_message.nextval,sysdate,1,'Pessoa7','CY@');
-Insert int message values(seq_message.nextval,sysdate,2,'Pessoa10','azeite pouco azeite azeite--');
+Insert into message values(seq_message.nextval,sysdate,1,'Pessoa10','Nao gosto da tua stream');
+Insert into message values(seq_message.nextval,sysdate,2,'Pessoa10','azeite muito azeite azeite++');
+Insert into message values(seq_message.nextval,sysdate,1,'Pessoa2','PogChamp!!');
+Insert into message values(seq_message.nextval,sysdate,1,'Pessoa7','CY@');
+Insert into message values(seq_message.nextval,sysdate,2,'Pessoa10','azeite pouco azeite azeite--');
 
 --has--
 
