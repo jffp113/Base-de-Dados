@@ -194,7 +194,37 @@ BEGIN
 	ROWID=:OLD.PK;
 END;
 /
-		
+--Master D--
+CREATE OR REPLACE VIEW view_watch  AS
+	SELECT ROWID pk, user_name, streamer_name, s_time
+	from watch;
+	
+CREATE OR REPLACE TRIGGER up_watch INSTEAD OF UPDATE ON view_watch
+FOR EACH ROW 
+BEGIN
+	UPDATE watch
+	SET 
+		user_name = :new.user_name,
+		streamer_name = :new.streamer_name,
+		s_time = :new.s_time
+	WHERE ROWID = :new.pk;
+END;
+/
+
+CREATE OR REPLACE TRIGGER ins_watch INSTEAD OF INSERT ON view_watch
+FOR EACH ROW 
+BEGIN
+	INSERT INTO WATCH VALUES (:new.user_name,:new.streamer_name,:new.s_time);
+END;
+/
+
+CREATE OR REPLACE TRIGGER ins_watch INSTEAD OF DELETE ON view_watch
+FOR EACH ROW 
+BEGIN
+	DELETE  FROM WATCH WHERE 
+	ROWID=:OLD.PK;
+END;
+/
 
 --SEQUENCES--
 DROP SEQUENCE seq_company;
