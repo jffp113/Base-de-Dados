@@ -161,33 +161,36 @@ CREATE OR REPLACE VIEW view_streamers AS( SELECT * FROM users NATURAL JOIN strea
 CREATE OR REPLACE VIEW view_premium AS( SELECT * FROM users NATURAL JOIN premium);
 
 --Master D--
-CREATE OR REPLACE VIEW view_watch  AS
-	SELECT ROWID pk, user_name, streamer_name, s_time
-	from watch;
+
+CREATE OR REPLACE VIEW view_stream AS
+	SELECT ROWID pk, streamer_name, s_time, g_name,description,link
+	from stream;
 	
-CREATE OR REPLACE TRIGGER up_watch INSTEAD OF UPDATE ON view_watch
+CREATE OR REPLACE TRIGGER up_stream INSTEAD OF UPDATE ON view_stream
 FOR EACH ROW 
 BEGIN
-	UPDATE watch
+	UPDATE stream
 	SET 
-		user_name = :new.user_name,
+		g_name = :new.g_name,
 		streamer_name = :new.streamer_name,
-		s_time = :new.s_time
+		s_time = :new.s_time,
+		description = :new.description,
+		link = :new.link
 	WHERE ROWID = :new.pk;
 END;
 /
 
-CREATE OR REPLACE TRIGGER ins_watch INSTEAD OF INSERT ON view_watch
+CREATE OR REPLACE TRIGGER ins_stream INSTEAD OF INSERT ON view_stream
 FOR EACH ROW 
 BEGIN
-	INSERT INTO WATCH VALUES (:new.user_name,:new.streamer_name,:new.s_time);
+	INSERT INTO stream VALUES (:new.streamer_name,:new.s_time,:new.g_name,:new.description,:new.link);
 END;
 /
 
-CREATE OR REPLACE TRIGGER ins_watch INSTEAD OF DELETE ON view_watch
+CREATE OR REPLACE TRIGGER ins_stream INSTEAD OF DELETE ON view_stream
 FOR EACH ROW 
 BEGIN
-	DELETE  FROM WATCH WHERE 
+	DELETE  FROM stream WHERE 
 	ROWID=:OLD.PK;
 END;
 /
@@ -568,7 +571,7 @@ INSERT INTO follow VALUES ('Pessoa5','Pessoa7',SYSDATE);
 
 --STREAM--
 INSERT INTO stream VALUES ('Pessoa10',TO_DATE('2012-03-28 11:10:00','yyyy/mm/dd hh24:mi:ss'),'Tetris','muito mas bastante muito ainda muito azeite','www.twitch/jorge.tv');
-INSERT INTO stream VALUES ('Pessoa10',TO_DATE('2018-05-19 17:00:16','yyyy/mm/dd hh24:mi:ss'),'Tetris','muito mas bastante muito ainda muito azeite','www.twitch/jorge.tv');
+INSERT INTO stream VALUES ('Pessoa10',TO_DATE('2018-05-21 00:00:00','yyyy/mm/dd hh24:mi:ss'),'Tetris','muito mas bastante muito ainda muito azeite','www.twitch/jorge.tv');
 
 --WATCH--
 INSERT INTO watch VALUES ('Pessoa3','Pessoa10',TO_DATE('2018-05-19 17:00:16','yyyy/mm/dd hh24:mi:ss'));
