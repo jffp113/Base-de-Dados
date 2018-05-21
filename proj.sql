@@ -382,6 +382,7 @@ create or replace FUNCTION calc_subs(streamer VARCHAR2)
         WHERE f.streamer_name = streamer;
         RETURN totalsubs; 
 END calc_subs;
+/
 
 
 PURGE RECYCLEBIN;
