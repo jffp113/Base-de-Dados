@@ -378,6 +378,10 @@ create or replace FUNCTION calc_subs(streamer VARCHAR2)
         RETURN totalsubs; 
 END calc_subs;
 /
+<<<<<<< HEAD
+=======
+
+>>>>>>> e4ead4b14dec1fa89f9da0feb269ea81da89e7d6
 
 PURGE RECYCLEBIN;
 
