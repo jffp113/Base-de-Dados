@@ -504,7 +504,7 @@ INSERT INTO USERS VALUES ('Pessoa11','Pessoa11@hotmail.com',TO_DATE('31-01-2000'
 --LOGIN--
 INSERT INTO login VALUES(SYSDATE,'192.168.1.92','Lisboa','Pessoa1');
 INSERT INTO login VALUES(SYSDATE,'192.165.1.87','Almada','Pessoa2');
-INSERT INTO login VALUES(SYSDATE,'192.168.1.09','Setúbal','Pessoa3');
+INSERT INTO login VALUES(TO_DATE('2018-05-19 13:00:00','yyyy/mm/dd hh24:mi:ss'),'192.168.1.09','Setúbal','Pessoa3');
 INSERT INTO login VALUES(SYSDATE,'192.153.1.92','Faro','Pessoa4');
 INSERT INTO login VALUES(SYSDATE,'192.176.1.92','Caparica','Pessoa5');
 INSERT INTO login VALUES(SYSDATE,'192.168.3.92','Porto','Pessoa6');
@@ -535,7 +535,7 @@ INSERT INTO follow VALUES ('Pessoa5','Pessoa7',SYSDATE);
 
 --STREAM--
 INSERT INTO stream VALUES ('Pessoa10',TO_DATE('2012-03-28 11:10:00','yyyy/mm/dd hh24:mi:ss'),'Tetris','muito mas bastante muito ainda muito azeite','www.twitch/jorge.tv');
-INSERT INTO stream VALUES ('Pessoa10',SYSDATE,'Tetris','muito mas bastante muito ainda muito azeite','www.twitch/jorge.tv');
+INSERT INTO stream VALUES ('Pessoa10',TO_DATE('2018-05-19 17:00:16','yyyy/mm/dd hh24:mi:ss'),'Tetris','muito mas bastante muito ainda muito azeite','www.twitch/jorge.tv');
 
 --WATCH--
 INSERT INTO watch VALUES ('Pessoa3','Pessoa10',TO_DATE('2018-05-19 17:00:16','yyyy/mm/dd hh24:mi:ss'));
@@ -558,7 +558,7 @@ INSERT INTO PAYMENT VALUES(SEQ_PAYMENT.NEXTVAL,SYSDATE,534,'Pessoa10','Apple Pay
 --Playlist--
 
 Insert into Playlist values(seq_playlist.nextval,'Playlist1','Pessoa10');
-Insert into Playlist values(seq_playlist.nextval,'Playlist2','Pessoa110');
+Insert into Playlist values(seq_playlist.nextval,'Playlist2','Pessoa10');
 Insert into Playlist values(seq_playlist.nextval,'Playlist3','Pessoa10');
 Insert into Playlist values(seq_playlist.nextval,'Ola1','Pessoa7');
 Insert into Playlist values(seq_playlist.nextval,'Ola2','Pessoa7');
