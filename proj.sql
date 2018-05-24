@@ -161,15 +161,6 @@ CREATE OR REPLACE VIEW view_streamers AS( SELECT * FROM users NATURAL JOIN strea
 CREATE OR REPLACE VIEW view_premium AS( SELECT * FROM users NATURAL JOIN premium);
 
 --Master D--
-
-CREATE OR REPLACE TRIGGER ins_stream INSTEAD OF DELETE ON view_stream
-FOR EACH ROW 
-BEGIN
-	DELETE  FROM stream WHERE 
-	ROWID=:OLD.PK;
-END;
-/
---Master D--
 CREATE OR REPLACE VIEW view_watch  AS
 	SELECT ROWID pk, user_name, streamer_name, s_time
 	from watch;
