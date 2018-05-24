@@ -162,31 +162,6 @@ CREATE OR REPLACE VIEW view_premium AS( SELECT * FROM users NATURAL JOIN premium
 
 --Master D--
 
-CREATE OR REPLACE VIEW view_stream AS
-	SELECT ROWID pk, streamer_name, s_time, g_name,description,link
-	from stream;
-	
-CREATE OR REPLACE TRIGGER up_stream INSTEAD OF UPDATE ON view_stream
-FOR EACH ROW 
-BEGIN
-	UPDATE stream
-	SET 
-		g_name = :new.g_name,
-		streamer_name = :new.streamer_name,
-		s_time = :new.s_time,
-		description = :new.description,
-		link = :new.link
-	WHERE ROWID = :new.pk;
-END;
-/
-
-CREATE OR REPLACE TRIGGER ins_stream INSTEAD OF INSERT ON view_stream
-FOR EACH ROW 
-BEGIN
-	INSERT INTO stream VALUES (:new.streamer_name,:new.s_time,:new.g_name,:new.description,:new.link);
-END;
-/
-
 CREATE OR REPLACE TRIGGER ins_stream INSTEAD OF DELETE ON view_stream
 FOR EACH ROW 
 BEGIN
@@ -200,6 +175,7 @@ CREATE OR REPLACE VIEW view_watch  AS
 	from watch;
 	
 CREATE OR REPLACE TRIGGER up_watch INSTEAD OF UPDATE ON view_watch
+REFERENCING NEW AS NEW OLD AS OLD
 FOR EACH ROW 
 BEGIN
 	UPDATE watch
@@ -212,14 +188,16 @@ END;
 /
 
 CREATE OR REPLACE TRIGGER ins_watch INSTEAD OF INSERT ON view_watch
+REFERENCING NEW AS NEW
 FOR EACH ROW 
 BEGIN
-	INSERT INTO WATCH VALUES (:new.user_name,:new.streamer_name,:new.s_time);
+	INSERT INTO watch VALUES (:new.user_name,:new.streamer_name,:new.s_time)
 	WHERE ROWID = :new.pk;
 END;
 /
 
 CREATE OR REPLACE TRIGGER del_watch INSTEAD OF DELETE ON view_watch
+REFERENCING OLD AS OLD
 FOR EACH ROW 
 BEGIN
 	DELETE  FROM WATCH WHERE 
@@ -252,8 +230,6 @@ DROP SEQUENCE seq_message;
 CREATE SEQUENCE seq_message
 START WITH 1
 INCREMENT BY 1;
-
-
 
 --TRIGGERS TO MANAGE view_streamers--
 CREATE OR REPLACE TRIGGER insert_streamer INSTEAD OF INSERT ON view_streamers
@@ -641,23 +617,7 @@ Insert into message values(seq_message.nextval,sysdate,1,'Pessoa2','PogChamp!!')
 Insert into message values(seq_message.nextval,sysdate,1,'Pessoa7','CY@');
 Insert into message values(seq_message.nextval,sysdate,2,'Pessoa10','azeite pouco azeite azeite--');
 
---has--
 
-
-
-
-/*CREATE OR REPLACE TRIGGER addPlaylistToHas  AFTER INSERT ON Playlist
-FOR EACH ROW
-Declare time  TIMESTAMP;
-BEGIN 
-
-	select s_time into time
-	from stream
-	where streamer_name = :new.streamer_name
-	
-    Insert into has values(:new.id_p, :new.stream_name,);
-END;
-/*/
 
 
 
