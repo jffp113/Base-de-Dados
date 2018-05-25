@@ -572,7 +572,8 @@ INSERT INTO stream VALUES ('Pessoa10',TO_DATE('2012-03-28 11:10:00','yyyy/mm/dd 
 INSERT INTO stream VALUES ('Pessoa10',TO_DATE('2018-05-21 00:00:00','yyyy/mm/dd hh24:mi:ss'),'Tetris','muito mas bastante muito ainda muito azeite','www.twitch/jorge.tv');
 
 --WATCH--
-INSERT INTO login VALUES(TO_DATE('2018-05-21 00:00:00','yyyy/mm/dd hh24:mi:ss','192.157.1.92','Babel','Pessoa3');								   
+INSERT INTO login VALUES(TO_DATE('2018-05-21 00:00:00','yyyy/mm/dd hh24:mi:ss','192.157.1.92','Babel','Pessoa3');
+INSERT INTO login VALUES(TO_DATE('2018-05-21 00:00:00','yyyy/mm/dd hh24:mi:ss'),'192.168.1.09','Setúbal','Pessoa8');
 INSERT INTO watch VALUES ('Pessoa3','Pessoa10',TO_DATE('2018-05-21 00:00:00','yyyy/mm/dd hh24:mi:ss'));
 
 						       
