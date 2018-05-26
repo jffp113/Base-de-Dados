@@ -182,8 +182,7 @@ CREATE OR REPLACE TRIGGER ins_watch INSTEAD OF INSERT ON view_watch
 REFERENCING NEW AS NEW
 FOR EACH ROW 
 BEGIN
-	INSERT INTO watch VALUES (:new.user_name,:new.streamer_name,:new.s_time)
-	WHERE ROWID = :new.pk;
+	INSERT INTO watch VALUES (:new.user_name,:new.streamer_name,:new.s_time);
 END;
 /
 
